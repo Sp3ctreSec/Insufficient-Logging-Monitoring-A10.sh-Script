@@ -1,5 +1,12 @@
 #!/bin/bash
-# ------NOT FINISHED------#
+#By Rhys Downing
+
+echo "Updating & Upgrading Ubuntu"
+sudo apt update && sudo apt upgrade
+echo "Complete."
+sleep 0.5
+clear
+
 echo "A10.sh Script"
 read -p "Press [Enter] key to continue..." fackEnterKey
 
@@ -14,7 +21,7 @@ show_menu() {
         echo "Select an option to begin the install and configuration..."
         echo "-----------------------------------------------------------"
         echo "1. Logfile setup and configuration to verbose"
-        echo "2. Intrusion Detection Systems and Anti-Virus setup and configuration"
+        echo "2. Anti-Virus setup and configuration"
         echo "3. Logswatch setup and configuration"
 }
 # function to display menu options.
@@ -34,8 +41,7 @@ A10P1() {
 
         clear
         echo "1. System Log File set to verbose"
-        echo "2. SSHd.service Log file set to verbose"
-        echo "3. Something not sure yet."
+        echo "2. Apache Access Log file set to verbose"
         sleep 1
 
 # This is a function within the A10P1 function that allows for
@@ -45,15 +51,16 @@ log_option() {
         read -p "Select Option [ 1 - 3] " choice
         case $choice in
                 1) tail -f /var/log/auth.log ;;
-                2)  ;;
-                3)  ;;
+                2) tail -f /var/log/apache2/access.log ;;
                 *) echo -e "${RED}Error...${STD}" && sleep 2
+
         esac
 
 
 
         }
 
+# runs the log_option function and the code within that function..
 log_option
 
 }
@@ -61,8 +68,27 @@ log_option
 
 A10P2() {
 
-echo "Second Option"
-sleep 6
+echo "Installing ClamAV"
+sudo apt install clamav clamav-daemon -y
+sleep 2
+
+echo "Stop the service"
+sleep 1
+systemctl stop clamav-freshclam
+freshclam
+sleep 2
+
+clear
+echo "restart the service"
+systemctl start clamav-freshclam
+sleep 1
+clamscan --help
+sleep 5
+
+echo "Run a Scan"
+man clamscan
+
+
 
 }
 
