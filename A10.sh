@@ -1,5 +1,4 @@
 #!/bin/bash
-#By Rhys Downing
 # ------NOT FINISHED------#
 echo "A10.sh Script"
 read -p "Press [Enter] key to continue..." fackEnterKey
